@@ -1,0 +1,100 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\begin{document}
+
+\title{A new algorithm for the Maximum Independent Set Problem (MIS)}
+
+\author{\IEEEauthorblockN{ Lachlan Ashcroft }
+\IEEEauthorblockA{\textit{Griffith University} \\
+\textit{}\\
+Gold Coast, Australia \\
+lochieashcroft@griffithuni.edu.au}
+}
+
+\maketitle
+
+\begin{abstract}
+This paper contains a brand new algorithm for identifying maximum independent sets in a graph as well as its complement, 
+the algorithm is called Not Interesting Because Bad Algorithm (NIBBA). A literature review is also included to give 
+context on what the current research is in this domain. 
+\end{abstract}
+
+\begin{IEEEkeywords}
+independent, set, MIS, algorithm
+\end{IEEEkeywords}
+
+\section{Introduction}
+Given an unweighted, undirected graph $G = (V, E)$ where $V$ is set of vertices and $E$ a set of edges, an 
+independent set contains vertices in which there is no two adjacent vertices. A maximal independent set is a set in 
+which the inclusion of any additional vertices would introduce a connecting edge into the set. The maximum independent 
+set (MIS) of a graph is the largest maximal independent set. The maximum size of the MIS is $N$ where $N$ is the number
+of vertices however this is only if $G$ is a completely disconnected graph. The MIS is a NP hard optimization problem [1].
+
+MIS is closely related to the maximum clique problem, by definition a clique in $Gc$ (complement of $G$) is an 
+independent set in G, by this logic the maximum independent set can be found by solving the maximum clique problem in 
+the complement of in the input graph. 
+
+The maximum independent set of a graph has various real world applications and because of this an efficient algorithm is 
+highly desired. This paper is structured as follows, section 2 contains the literature review, section 3 the XYZ algorithm, section 4 
+the results and lastly the conclusion is section 5.
+
+Tests will be ran against a subset of the DIMACS[2] in order to benchmark XYZ algorithm.
+
+\subsection{Terminology}
+
+The degree of a vertex $v$ shown as $d(v)$ is the number of edges (connections) of vertex v
+
+Adjacency matrix is a matrix of dimensions $(N, N)$ where $N$ is the number of vertices, a value of 1 indicates two
+vertices are adjacent.
+
+\section{Literature Review}
+A literature review was performed in order to understand the current state of the research regarding the MIS and also
+for inspiration for the development of a new algorithm.
+
+
+, various papers have been citied. The earliest paper is from the year XXXX
+blah blah blah
+
+As mentioned in the introduction the MIS and the maximum clique problem are complementary, as a result many approaches
+simply solve for the maximum clique in the complement of the input graph.
+
+
+\subsection{Maintaining the Integrity of the Specifications}
+
+\section{Algorithm}
+
+The algorithm takes inspiration from ......
+
+\subsection{Design}
+
+Just some ideas which may be explored
+
+\subsection{Parallel Greedy}
+
+Sort the vertices by their degree in ascending order, randomly pick a starting vertex from the first 10\% of nodes. 
+Randomly pick another vertex to add to the set while maintaining the independence with a bias for a vertex with a low 
+degree. This is performed on multiple threads.
+
+\subsection{Random shrink and grow}
+
+Randomly choose $N$ vertices to build a set, if the set is independent randomly add 1 or more vertices to the set.
+If the set is not independent randomly remove vertices until it is.
+
+\subsection{Pseudocode}
+
+\section{Results}
+
+\begin{thebibliography}{00}
+\bibitem{b1}  Garey. M. R, Johnson. D. S: Computers and Intractability: A Guide to the theory NP – completeness. San Francisco: Freeman (1979).  
+\bibitem{b2} DIMACS clique benchmarks. Benchmark instances made available by electronic transfer at dimacs.rutgers.edu, Rutgers Univ., Piscataway. NJ. (1993). 
+\end{thebibliography}
+\end{document}
