@@ -11,7 +11,7 @@ class Reader
 {
     public:
         Reader();
-        void read(std::string path, AdjencyMatrix* adj_m, AdjencyList* adj_l);
+        void read(std::string path, AdjencyMatrix* adj_m, AdjencyList* adj_l, int* n_n, int* n_e);
 
 
     private:

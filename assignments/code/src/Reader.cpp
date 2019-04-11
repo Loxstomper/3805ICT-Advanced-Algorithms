@@ -5,7 +5,7 @@ Reader::Reader()
 
 }
 
-void Reader::read(std::string path, AdjencyMatrix* adj_m, AdjencyList* adj_l)
+void Reader::read(std::string path, AdjencyMatrix* adj_m, AdjencyList* adj_l, int* n_n, int* n_e)
 {
     std::ifstream file;
     file.open(path);
@@ -29,6 +29,10 @@ void Reader::read(std::string path, AdjencyMatrix* adj_m, AdjencyList* adj_l)
 
             // initialize datastructures
             std::cout << "Nodes: " << number_nodes << "\tEdges: " << number_edges << std::endl;
+
+            // update pointer values
+            *n_n = number_nodes;
+            *n_e = number_edges;
 
             adj_m->setup(number_nodes);
             adj_l->setup(number_edges);
