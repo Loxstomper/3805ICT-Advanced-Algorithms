@@ -89,7 +89,7 @@ void Solver::solve(int target)
         // q.pop();
     }
 
-    std::cout << "MIS SIZE: " << is.size() << std::endl;
+    std::cout << "SIZE: " << is.size() << std::endl;
 
 }
 

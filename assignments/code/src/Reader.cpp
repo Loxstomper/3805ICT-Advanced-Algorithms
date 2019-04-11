@@ -28,7 +28,7 @@ void Reader::read(std::string path, AdjencyMatrix* adj_m, AdjencyList* adj_l, in
             sscanf(line.c_str(), "%c %s %d %d", &tmp, temp, &number_nodes, &number_edges);
 
             // initialize datastructures
-            std::cout << "Nodes: " << number_nodes << "\tEdges: " << number_edges << std::endl;
+            // std::cout << "Nodes: " << number_nodes << "\tEdges: " << number_edges << std::endl;
 
             // update pointer values
             *n_n = number_nodes;
