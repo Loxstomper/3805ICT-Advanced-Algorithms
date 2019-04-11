@@ -1,4 +1,4 @@
-maximum-independent-set: build/main.o build/Reader.o build/AdjencyMatrix.o build/AdjencyList.o
+maximum-independent-set: build/main.o build/Reader.o build/AdjencyMatrix.o build/AdjencyList.o build/Solver.o
 	g++ -o maximum-independent-set ./build/*.o
 
 build/main.o: ./src/main.cpp 
@@ -12,6 +12,9 @@ build/AdjencyMatrix.o: ./src/AdjencyMatrix.cpp
 
 build/AdjencyList.o: ./src/AdjencyList.cpp
 	g++ -c ./src/AdjencyList.cpp -o ./build/AdjencyList.o
+
+build/Solver.o: ./src/Solver.cpp
+	g++ -c ./src/Solver.cpp -o ./build/Solver.o
 
 clean:
 	rm maximum-independent-set ./build/*.o 
