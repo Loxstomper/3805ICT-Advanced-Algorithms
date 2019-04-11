@@ -20,3 +20,8 @@ void AdjencyList::add(int i, int a)
 {
     this->list[i].push_back(a);
 }
+
+std::vector<int> AdjencyList::get(int i)
+{
+    return this->list[i];
+}
