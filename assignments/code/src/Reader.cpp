@@ -35,7 +35,8 @@ void Reader::read(std::string path, AdjencyMatrix* adj_m, AdjencyList* adj_l, in
             *n_e = number_edges;
 
             adj_m->setup(number_nodes);
-            adj_l->setup(number_edges);
+            adj_l->setup(number_nodes);
+            // adj_l->setup(number_edges);
         }
         // e | a | b
         else 
