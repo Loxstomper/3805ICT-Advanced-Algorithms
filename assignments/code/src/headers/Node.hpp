@@ -9,5 +9,5 @@ class Node {
 
         Node(int node, int degree, int neighbourhood_degree);
 
-        // bool operator()(const Node& a, const Node& b);
+        static bool compare(Node a, Node b);
 };

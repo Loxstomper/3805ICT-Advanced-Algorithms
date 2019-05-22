@@ -1,41 +1,6 @@
 #include "./headers/LochieSolver.hpp"
 #include "./headers/Node.hpp"
 
-// class Node {
-//     bool operator() (const Node& a, const Node& b)
-//     {
-//         return a.neighbourhood_degree > b.neighbourhood_degree;
-//     }
-
-//     public:
-//         int node, degree, neighbourhood_degree;
-//         Node(int node, int degree, int neighbourhood_degree)
-//         {
-//             this->node = node;
-//             this->degree = degree;
-//             this->neighbourhood_degree = neighbourhood_degree;
-//         }
-
-//         // bool operator() (const Node& a, const Node& b)
-//         // {
-//         //     return a.neighbourhood_degree > b.neighbourhood_degree;
-//         // }
-
-// };
-
-// class CompareDegree {
-//     bool operator() (const Node& a, const Node& b)
-//     {
-//         return a.neighbourhood_degree > b.neighbourhood_degree;
-//     }
-// };
-
-// bool operator<(const Node& a, const Node& b) 
-// {
-//     return a.neighbourhood_degree > b.neighbourhood_degree;
-// }
-
-
 LochieSolver::LochieSolver(int number_nodes, int number_edges, AdjencyMatrix* adj_m, AdjencyList* adj_l)
 {
     this->number_nodes = number_nodes;
@@ -48,8 +13,7 @@ void LochieSolver::solve(int target)
 {
     // set intersection?
     std::unordered_set<int> is;
-    // std::priority_queue<Node, std::vector<Node>, CompareDegree> q;
-    std::priority_queue<Node> q;
+    std::priority_queue<Node, std::vector<Node>, bool(*)(Node, Node)> q(Node::compare);
 
     for (int i = 1; i <= this->number_nodes; i ++)
     {

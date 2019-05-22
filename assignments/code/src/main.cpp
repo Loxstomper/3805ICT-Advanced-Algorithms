@@ -6,6 +6,7 @@
 #include "./headers/AdjencyMatrix.hpp"
 #include "./headers/AdjencyList.hpp"
 #include "./headers/Solver.hpp"
+#include "./headers/LochieSolver.hpp"
 
 
 int main(int argc, char** argv)
