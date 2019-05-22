@@ -1,5 +1,4 @@
 #include "./headers/Solver.hpp"
-#include "./headers/Node.hpp"
 
 Solver::Solver(int number_nodes, int number_edges, AdjencyMatrix* adj_m, AdjencyList* adj_l)
 {
@@ -55,6 +54,29 @@ double Solver::getSearchTime()
     std::chrono::duration<double> elapsed_time = this->endTime - this->startTime;
 
     return elapsed_time.count();
+}
+
+bool Solver::isIS(std::unordered_set<int>* is)
+{
+    // iterate over is, check that no other nodes in its adj_l is in the unordered_set
+    static int node;
+    static std::vector<int> neighbours;
+
+    for (auto it = is->begin(); it != is->end(); ++it) 
+    {
+        node = *it;
+        neighbours = this->adj_l->get(node);
+
+        for (int i = 0; i < neighbours.size(); i ++)
+        {
+            if (is->find(neighbours[i]) != is->end())
+            {
+                return false;
+            }
+        }
+    }
+
+    return true;
 }
 
 

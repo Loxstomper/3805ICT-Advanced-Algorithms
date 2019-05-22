@@ -5,9 +5,10 @@ AdjencyMatrix::AdjencyMatrix()
 
 }
 
-void AdjencyMatrix::setup(int n_edges)
+void AdjencyMatrix::setup(int n_nodes)
 {
-    this->size = n_edges;
+    // nodes start a 1 not 0 - makes it easier to index
+    this->size = n_nodes + 1;
     // this zeroes out the memory region
     this->matrix = new int[this->size * this->size]();
 }
@@ -22,9 +23,9 @@ int AdjencyMatrix::index(int x, int y)
     return x + size * y;
 }
 
-void AdjencyMatrix::set(int i)
+void AdjencyMatrix::set(int i, int v)
 {
-    this->matrix[i] = 1;
+    this->matrix[i] = v;
 }
 
 int AdjencyMatrix::get(int i)

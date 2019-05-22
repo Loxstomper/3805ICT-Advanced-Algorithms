@@ -1,23 +1,11 @@
-#include <iostream>
-#include <vector>
-#include <unordered_set>
-#include <queue>
+#include "./Solver.hpp"
 
-#include "./AdjencyMatrix.hpp"
-#include "./AdjencyList.hpp"
-
-class LochieSolver
+class LochieSolver: public Solver
 {
     public:
         LochieSolver(int number_nodes, int number_edges, AdjencyMatrix* adj_m, AdjencyList* adj_l);
-        void solve(int target);
+        int solve(int target, int maxIterations);
 
     private:
-        int number_nodes, number_edges;
-        AdjencyMatrix* adj_m;
-        AdjencyList* adj_l;
-
-        int getDegree(int i);
-        std::vector<int> getNeighbours(int i);
-        int getNeighbourhoodDegree(int i);
+        void updatePotential(int inserted, std::unordered_set<int>* potential);
 };

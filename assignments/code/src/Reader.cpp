@@ -5,7 +5,7 @@ Reader::Reader()
 
 }
 
-void Reader::read(std::string path, AdjencyMatrix* adj_m, AdjencyList* adj_l, int* n_n, int* n_e)
+void Reader::read(std::string path, bool complement, AdjencyMatrix* adj_m, AdjencyList* adj_l, int* n_n, int* n_e)
 {
     std::ifstream file;
     file.open(path);
@@ -35,6 +35,7 @@ void Reader::read(std::string path, AdjencyMatrix* adj_m, AdjencyList* adj_l, in
             *n_e = number_edges;
 
             adj_m->setup(number_nodes);
+
             adj_l->setup(number_nodes);
             // adj_l->setup(number_edges);
         }
@@ -44,13 +45,44 @@ void Reader::read(std::string path, AdjencyMatrix* adj_m, AdjencyList* adj_l, in
             sscanf(line.c_str(), "%c %d %d", &tmp, &a, &b);
 
             // update datastructures
-            adj_m->set(adj_m->index(a, b));
-            adj_m->set(adj_m->index(b, a));
+            adj_m->set(adj_m->index(a, b), 1);
+            adj_m->set(adj_m->index(b, a), 1);
 
-            adj_l->add(a, b);
-            adj_l->add(b, a);
+            // no point adding if going to redo
+            if (!complement)
+            {
+                adj_l->add(a, b);
+                adj_l->add(b, a);
+            }
         }
     }
 
     file.close();
+
+    int index;
+    if (complement) 
+    {
+        // invert matrix and populate adj_l
+        for (int i = 1; i < number_nodes; i ++)
+        {
+            for (int j = 1; j < number_nodes; i ++)
+            {
+                index = adj_m->index(i, j);
+
+                if (adj_m->get(index) == 0) 
+                {
+                    adj_m->set(index, 1);
+                    // double check if needs to be done twice
+                    adj_l->add(i, j);
+                    adj_l->add(j, i);
+                } 
+                else 
+                {
+                    adj_m->set(index, 0);
+                }
+            }
+        }
+
+    }
+
 }

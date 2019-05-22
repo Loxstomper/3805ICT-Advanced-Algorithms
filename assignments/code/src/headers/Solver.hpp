@@ -16,6 +16,7 @@ class Solver
         Solver(int number_nodes, int number_edges, AdjencyMatrix* adj_m, AdjencyList* adj_l);
         int solve(int target);
         double getSearchTime();
+        bool isIS(std::unordered_set<int>* is);
 
     protected:
         int number_nodes, number_edges;
