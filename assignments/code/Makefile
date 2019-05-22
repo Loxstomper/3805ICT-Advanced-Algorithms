@@ -1,20 +1,29 @@
-maximum-independent-set: build/main.o build/Reader.o build/AdjencyMatrix.o build/AdjencyList.o build/Solver.o
-	g++ -o maximum-independent-set ./build/*.o
+debug = -g
+
+# maximum-independent-set: build/main.o build/Reader.o build/AdjencyMatrix.o build/AdjencyList.o build/Solver.o build/LochieSolver.o build/Node.o
+maximum-independent-set: build/main.o build/Reader.o build/AdjencyMatrix.o build/AdjencyList.o build/Solver.o build/Node.o
+	g++ ${debug} -o maximum-independent-set ./build/*.o
 
 build/main.o: ./src/main.cpp 
-	g++ -c ./src/main.cpp -o ./build/main.o
+	g++ ${debug} -c ./src/main.cpp -o ./build/main.o
 
 build/Reader.o: ./src/Reader.cpp
-	g++ -c ./src/Reader.cpp -o ./build/Reader.o
+	g++ ${debug} -c ./src/Reader.cpp -o ./build/Reader.o
 
 build/AdjencyMatrix.o: ./src/AdjencyMatrix.cpp
-	g++ -c ./src/AdjencyMatrix.cpp -o ./build/AdjencyMatrix.o
+	g++ ${debug} -c ./src/AdjencyMatrix.cpp -o ./build/AdjencyMatrix.o
 
 build/AdjencyList.o: ./src/AdjencyList.cpp
-	g++ -c ./src/AdjencyList.cpp -o ./build/AdjencyList.o
+	g++ ${debug} -c ./src/AdjencyList.cpp -o ./build/AdjencyList.o
 
-build/Solver.o: ./src/Solver.cpp
-	g++ -c ./src/Solver.cpp -o ./build/Solver.o
+build/Solver.o: ./src/Solver.cpp build/Node.o
+	g++ ${debug} -c ./src/Solver.cpp -o ./build/Solver.o
+
+# build/LochieSolver.o: ./src/LochieSolver.cpp
+# 	g++ -c ./src/LochieSolver.cpp -o ./build/LochieSolver.o
+
+build/Node.o: ./src/Node.cpp
+	g++ ${debug} -c ./src/Node.cpp -o ./build/Node.o
 
 clean:
 	rm maximum-independent-set ./build/*.o 

@@ -1,4 +1,4 @@
-#include "./headers/Solver.hpp"
+#include "./headers/LochieSolver.hpp"
 #include "./headers/Node.hpp"
 
 // class Node {
@@ -14,12 +14,12 @@
 //             this->node = node;
 //             this->degree = degree;
 //             this->neighbourhood_degree = neighbourhood_degree;
-        // }
+//         }
 
-        // bool operator() (const Node& a, const Node& b)
-        // {
-        //     return a.neighbourhood_degree > b.neighbourhood_degree;
-        // }
+//         // bool operator() (const Node& a, const Node& b)
+//         // {
+//         //     return a.neighbourhood_degree > b.neighbourhood_degree;
+//         // }
 
 // };
 
@@ -30,13 +30,13 @@
 //     }
 // };
 
-bool operator<(const Node& a, const Node& b) 
-{
-    return a.neighbourhood_degree > b.neighbourhood_degree;
-}
+// bool operator<(const Node& a, const Node& b) 
+// {
+//     return a.neighbourhood_degree > b.neighbourhood_degree;
+// }
 
 
-Solver::Solver(int number_nodes, int number_edges, AdjencyMatrix* adj_m, AdjencyList* adj_l)
+LochieSolver::LochieSolver(int number_nodes, int number_edges, AdjencyMatrix* adj_m, AdjencyList* adj_l)
 {
     this->number_nodes = number_nodes;
     this->number_edges = number_edges;
@@ -44,7 +44,7 @@ Solver::Solver(int number_nodes, int number_edges, AdjencyMatrix* adj_m, Adjency
     this->adj_l = adj_l;
 }
 
-void Solver::solve(int target)
+void LochieSolver::solve(int target)
 {
     // set intersection?
     std::unordered_set<int> is;
@@ -94,17 +94,17 @@ void Solver::solve(int target)
 
 }
 
-int Solver::getDegree(int i)
+int LochieSolver::getDegree(int i)
 {
     return this->adj_l->getSize(i);
 }
 
-std::vector<int> Solver::getNeighbours(int i)
+std::vector<int> LochieSolver::getNeighbours(int i)
 {
     return this->adj_l->get(i);
 }
 
-int Solver::getNeighbourhoodDegree(int i)
+int LochieSolver::getNeighbourhoodDegree(int i)
 {
     std::vector<int> neighbours = this->getNeighbours(i);
 
