@@ -7,14 +7,12 @@ Node::Node(int node, int degree, int neighbourhood_degree)
     this->neighbourhood_degree = neighbourhood_degree;
 }
 
-bool Node::compare(Node a, Node b)
+bool Node::compareNeighbourDegree(Node a, Node b)
 {
-    if (GREEDY_NEIGHBOUR) 
-    {
-        return a.neighbourhood_degree > b.neighbourhood_degree;
-    }
-    else 
-    {
-        return a.degree > b.degree;
-    }
+    return a.neighbourhood_degree > b.neighbourhood_degree;
+}
+
+bool Node::compareDegree(Node a, Node b)
+{
+    return a.degree > b.degree;
 }

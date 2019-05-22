@@ -1,11 +1,6 @@
 #include "./headers/Solver.hpp"
 #include "./headers/Node.hpp"
 
-bool compareNode(Node a, Node b) 
-{
-    return a.degree > b.degree;
-}
-
 Solver::Solver(int number_nodes, int number_edges, AdjencyMatrix* adj_m, AdjencyList* adj_l)
 {
     this->number_nodes = number_nodes;
@@ -14,53 +9,10 @@ Solver::Solver(int number_nodes, int number_edges, AdjencyMatrix* adj_m, Adjency
     this->adj_l = adj_l;
 }
 
-void Solver::solve(int target)
+int Solver::solve(int target)
 {
-    // set intersection?
-    std::unordered_set<int> is;
-    std::priority_queue<Node, std::vector<Node>, bool(*)(Node, Node)> q(Node::compare);
-
-    for (int i = 1; i <= this->number_nodes; i ++)
-    {
-        // std::cout << "Node: " << i << "\tDegree: " << this->getDegree(i) << "\tNeighbourhoodDegree: " << this->getNeighbourhoodDegree(i) << std::endl;
-
-        q.push(Node(i, this->getDegree(i), this->getNeighbourhoodDegree(i)));
-    }
-
-    // priority que of tuple (node_number, nighbourhooddegree)
-    // pop see if it can be added to set, if not forget about it
-    // when add do a set inersection between IS and popped node - cant add if is greater than length 1
-
-    int collision;
-
-    while (!q.empty())
-    {
-        collision = 0;
-        Node potential = q.top();
-        q.pop();
-
-        // check potential node wont cause an edge
-        for (int i = 0; i < this->adj_l->get(potential.node).size(); i ++)
-        {
-            if (is.find(this->adj_l->get(potential.node)[i]) != is.end())
-            {
-                collision = 1;
-                break;
-            }
-        }
-
-        if (!collision)
-        {
-            is.insert(potential.node);
-        }
-
-
-        // std::cout << q.top().neighbourhood_degree << std::endl;
-        // q.pop();
-    }
-
-    std::cout << "SIZE: " << is.size() << std::endl;
-
+    std::cout << "Solve function" << std::endl;
+    return -1;
 }
 
 int Solver::getDegree(int i)
@@ -86,6 +38,23 @@ int Solver::getNeighbourhoodDegree(int i)
     }
 
     return sum;
+}
+
+void Solver::startClock()
+{
+    this->startTime = std::chrono::high_resolution_clock::now();
+}
+
+void Solver::stopClock()
+{
+    this->endTime = std::chrono::high_resolution_clock::now();
+}
+
+double Solver::getSearchTime()
+{
+    std::chrono::duration<double> elapsed_time = this->endTime - this->startTime;
+
+    return elapsed_time.count();
 }
 
 

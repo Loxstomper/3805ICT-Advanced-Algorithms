@@ -1,7 +1,5 @@
 #pragma once
 
-#define GREEDY_NEIGHBOUR 1
-
 class Node {
 
     public:
@@ -9,5 +7,6 @@ class Node {
 
         Node(int node, int degree, int neighbourhood_degree);
 
-        static bool compare(Node a, Node b);
+        static bool compareNeighbourDegree(Node a, Node b);
+        static bool compareDegree(Node a, Node b);
 };

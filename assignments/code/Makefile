@@ -1,6 +1,6 @@
 debug = -g
 
-maximum-independent-set: build/main.o build/Reader.o build/AdjencyMatrix.o build/AdjencyList.o build/Solver.o build/LochieSolver.o build/Node.o
+maximum-independent-set: build/main.o build/Reader.o build/AdjencyMatrix.o build/AdjencyList.o build/Solver.o build/GreedySolver.o build/LochieSolver.o build/Node.o
 # maximum-independent-set: build/main.o build/Reader.o build/AdjencyMatrix.o build/AdjencyList.o build/Solver.o build/Node.o
 	g++ ${debug} -o maximum-independent-set ./build/*.o
 
@@ -18,6 +18,9 @@ build/AdjencyList.o: ./src/AdjencyList.cpp
 
 build/Solver.o: ./src/Solver.cpp build/Node.o
 	g++ ${debug} -c ./src/Solver.cpp -o ./build/Solver.o
+
+build/GreedySolver.o: ./src/GreedySolver.cpp
+	g++ -c ./src/GreedySolver.cpp -o ./build/GreedySolver.o
 
 build/LochieSolver.o: ./src/LochieSolver.cpp
 	g++ -c ./src/LochieSolver.cpp -o ./build/LochieSolver.o
