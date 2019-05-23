@@ -18,10 +18,23 @@ LSV2ObjectWrapper::LSV2ObjectWrapper(AdjencyList* adj_l, int startingSize)
 //     return &(this->objects[i]);
 // }
 
+int LSV2ObjectWrapper::getSizeElement(int i)
+{
+    return this->objects->at(i).size;
+}
+
 void LSV2ObjectWrapper::add(LSV2Object obj)
 {
     this->objects->push_back(obj);
     this->size ++;
+}
+
+void LSV2ObjectWrapper::add()
+{
+    this->objects->push_back(LSV2Object());
+    this->size ++;
+
+    this->objects->at(this->size - 1).setAdjList(this->adj_l);
 }
 
 void LSV2ObjectWrapper::merge(int a, int b)
@@ -37,7 +50,18 @@ void LSV2ObjectWrapper::merge(int a, int b)
 bool LSV2ObjectWrapper::insert(int index, int value)
 {
     // return this->objects[index].insert(value);
-    return this->objects->at(index).insert(value);
+    static bool success;
+
+    success = this->objects->at(index).insert(value);
+    if (success)
+    {
+        if (this->objects->at(index).size > this->best)
+        {
+            this->best = this->objects->at(index).size;
+        }
+    }
+
+    return success;
 }
 
 std::ostream &operator<<(std::ostream& stream, LSV2ObjectWrapper o)

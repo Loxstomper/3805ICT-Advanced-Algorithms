@@ -12,7 +12,8 @@ class LSV2ObjectWrapper
 
         // LSV2Object* get(int i);
         void add(LSV2Object obj);
-        int getSize();
+        void add();
+        int getSizeElement(int i);
         int getBest();
 
         void merge(int a, int b);

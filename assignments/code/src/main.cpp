@@ -6,8 +6,10 @@
 #include "./headers/Reader.hpp"
 #include "./headers/AdjencyMatrix.hpp"
 #include "./headers/AdjencyList.hpp"
-#include "./headers/LochieSolver.hpp"
 #include "./headers/GreedySolver.hpp"
+#include "./headers/LochieSolver.hpp"
+#include "./headers/LochieSolverV2.hpp"
+
 
 int getTarget(char* file, bool complement, std::map<std::string, std::tuple<int, int>>& map)
 {
@@ -32,10 +34,6 @@ void output(int target, std::string method, int mis, double time)
                 << time << std::endl;
 }
 
-// iterations, files?
-// void test()
-
-// try using the optimizer too - O2
 int main(int argc, char** argv)
 {
     AdjencyMatrix adj_m;
@@ -49,8 +47,6 @@ int main(int argc, char** argv)
 
     std::cout << "COMPLEMENT? : " << complement << std::endl;
 
-    // add complement support in read function
-    // use argv[2]
     Reader::read(argv[1], complement, &adj_m, &adj_l, &number_nodes, &number_edges);
 
     // filename -> [target, target complement]
@@ -77,24 +73,36 @@ int main(int argc, char** argv)
 
     GreedySolver greedySolver(number_nodes, number_edges, &adj_m, &adj_l);
     LochieSolver lochieSolver(number_nodes, number_edges, &adj_m, &adj_l);
+    LochieSolverV2 lochieSolverV2(number_nodes, number_edges, &adj_m, &adj_l);
+
+    mis  = lochieSolverV2.solve(target, 100, 4);
+    time = lochieSolverV2.getSearchTime();
+
+    output(target, "LochieV2", mis, time);
 
 
-    for (int i = 0; i < 10; i ++)
+
+    for (int i = 0; i < 1; i ++)
     {
-        mis  = lochieSolver.solve(target, 10000);
-        time = lochieSolver.getSearchTime();
+        // mis  = lochieSolver.solve(target, 10000);
+        // time = lochieSolver.getSearchTime();
 
-        output(target, "LochieV1", mis, time);
+        // output(target, "LochieV1", mis, time);
 
-        mis  = greedySolver.solve(target, true);
-        time = greedySolver.getSearchTime();
+        // mis  = lochieSolverV2.solve(target, 100);
+        // time = lochieSolverV2.getSearchTime();
 
-        output(target, "GreedyDegree", mis, time);
+        // output(target, "LochieV2", mis, time);
 
-        mis  = greedySolver.solve(target, false);
-        time = greedySolver.getSearchTime();
+        // mis  = greedySolver.solve(target, true);
+        // time = greedySolver.getSearchTime();
 
-        output(target, "GreedyNeighbourhoodDegree", mis, time);
+        // output(target, "GreedyDegree", mis, time);
+
+        // mis  = greedySolver.solve(target, false);
+        // time = greedySolver.getSearchTime();
+
+        // output(target, "GreedyNeighbourhoodDegree", mis, time);
     }
 
     std::cout << std::endl;
