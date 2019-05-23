@@ -17,14 +17,16 @@ class LSV2ObjectWrapper
         int getBest();
 
         void merge(int a, int b);
+        void mergeAll();
         bool insert(int index, int value);
+        bool attemptInsertAll(int value);
 
 
         int size;
         int best;
+        std::vector<LSV2Object>* objects;
 
         friend std::ostream &operator<<(std::ostream& stream, LSV2ObjectWrapper o);
     private:
         AdjencyList* adj_l;
-        std::vector<LSV2Object>* objects;
 };

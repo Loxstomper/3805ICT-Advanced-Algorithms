@@ -47,6 +47,28 @@ void LSV2ObjectWrapper::merge(int a, int b)
     }
 }
 
+void LSV2ObjectWrapper::mergeAll()
+{
+    static int i, j;
+
+    for (int i = 0; i < this->size; i ++)
+    {
+        for (int j = i; j < this->size; j ++)
+        {
+            // try merge the smallest
+            if (this->getSizeElement(i) > this->getSizeElement(j))
+            {
+                this->merge(i, j);
+            }
+            else
+            {
+                this->merge(j, i);
+            }
+        }
+    }
+}
+
+
 bool LSV2ObjectWrapper::insert(int index, int value)
 {
     // return this->objects[index].insert(value);
@@ -62,6 +84,25 @@ bool LSV2ObjectWrapper::insert(int index, int value)
     }
 
     return success;
+}
+
+bool LSV2ObjectWrapper::attemptInsertAll(int value)
+{
+
+    for (int i = 0; i < this->size; i ++)
+    {
+        if (this->insert(i, value))
+        {
+            if (this->objects->at(i).size > this->best)
+            {
+                this->best = this->objects->at(i).size;
+            }
+
+            return true;
+        }
+    }
+
+    return false;
 }
 
 std::ostream &operator<<(std::ostream& stream, LSV2ObjectWrapper o)

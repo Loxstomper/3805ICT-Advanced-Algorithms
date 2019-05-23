@@ -10,4 +10,5 @@ class LochieSolverV2: public Solver
         int solve(int target, int maxIterations, int startingSize);
 
     private:
+        void prepareQueue(std::queue<int>* nodeQueue);
 };
