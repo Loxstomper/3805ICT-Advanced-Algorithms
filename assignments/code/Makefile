@@ -1,7 +1,7 @@
 debug = -g
 # optimize = -O2
 
-maximum-independent-set: build/main.o build/Reader.o build/AdjencyMatrix.o build/AdjencyList.o build/Solver.o build/GreedySolver.o build/LochieSolver.o build/LochieSolverV2.o build/Node.o ./build/LSV2Object.o
+maximum-independent-set: build/main.o build/Reader.o build/AdjencyMatrix.o build/AdjencyList.o build/Solver.o build/GreedySolver.o build/LochieSolver.o build/LochieSolverV2.o build/Node.o ./build/LSV2Object.o ./build/LSV2ObjectWrapper.o
 # maximum-independent-set: build/main.o build/Reader.o build/AdjencyMatrix.o build/AdjencyList.o build/Solver.o build/Node.o
 	g++ ${debug} ${optimize} -o maximum-independent-set ./build/*.o
 
@@ -31,6 +31,9 @@ build/LochieSolverV2.o: ./src/LochieSolverV2.cpp
 
 build/LSV2Object.o: ./src/LSV2Object.cpp
 	g++ ${debug} ${optimize} -c ./src/LSV2Object.cpp -o ./build/LSV2Object.o
+
+build/LSV2ObjectWrapper.o: ./src/LSV2ObjectWrapper.cpp
+	g++ ${debug} ${optimize} -c ./src/LSV2ObjectWrapper.cpp -o ./build/LSV2ObjectWrapper.o
 
 build/Node.o: ./src/Node.cpp
 	g++ ${debug} ${optimize} -c ./src/Node.cpp -o ./build/Node.o

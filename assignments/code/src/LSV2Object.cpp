@@ -1,11 +1,24 @@
 #include "./headers/LSV2Object.hpp"
 
+LSV2Object::LSV2Object()
+{
+    this->adj_list = NULL;
+    this->nodes = new std::unordered_set<int>;
+    this->adj_map = new std::unordered_map<int, int>;
+    this->size = 0;
+}
+
 LSV2Object::LSV2Object(AdjencyList* adj_list)
 {
     this->adj_list = adj_list;
     this->nodes = new std::unordered_set<int>;
     this->adj_map = new std::unordered_map<int, int>;
     this->size = 0;
+}
+
+void LSV2Object::setAdjList(AdjencyList* adj_list)
+{
+    this->adj_list = adj_list;
 }
 
 bool LSV2Object::insert(int node)
@@ -143,12 +156,12 @@ std::ostream &operator<<(std::ostream& stream, LSV2Object o)
 
     stream << "\n\n";
 
-    stream << "ADJ MAP:\n";
+    // stream << "ADJ MAP:\n";
 
-    for (auto it = o.adj_map->begin(); it != o.adj_map->end(); ++it)
-    {
-        stream << it->first << ": " << it->second << "\n";
-    }
+    // for (auto it = o.adj_map->begin(); it != o.adj_map->end(); ++it)
+    // {
+    //     stream << it->first << ": " << it->second << "\n";
+    // }
 
     return stream;
 }

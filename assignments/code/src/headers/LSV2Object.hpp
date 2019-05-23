@@ -9,7 +9,10 @@
 class LSV2Object
 {
     public:
+        LSV2Object();
         LSV2Object(AdjencyList* adj_list);
+        
+        void setAdjList(AdjencyList* adj_list);
         void merge(LSV2Object* b);
         bool insert(int node);
 
