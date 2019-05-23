@@ -25,3 +25,8 @@ std::vector<int> AdjencyList::get(int i)
 {
     return this->list[i];
 }
+
+std::vector<int>* AdjencyList::getPtr(int i)
+{
+    return &this->list[i];
+}
