@@ -105,6 +105,16 @@ bool LSV2ObjectWrapper::attemptInsertAll(int value)
     return false;
 }
 
+std::unordered_set<int> LSV2ObjectWrapper::collapse(int index)
+{
+    std::unordered_set<int> nodes = *this->objects->at(index).nodes;
+
+    this->objects->erase(this->objects->begin() + index);
+    this->size --;
+
+    return nodes;
+}
+
 std::ostream &operator<<(std::ostream& stream, LSV2ObjectWrapper o)
 {
     return stream;

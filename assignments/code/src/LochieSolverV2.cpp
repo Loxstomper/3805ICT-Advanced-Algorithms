@@ -116,9 +116,24 @@ int LochieSolverV2::solve(int target, int maxIterations, int startingSize)
             }
 
         }
+        // collapse a random set
+        // int index = rand() % objectWrapper->size;
+        // std::unordered_set<int> collapsed = objectWrapper->collapse(index);
+
+        // // iterate over and put into queue
+        // std::cout << "COLLAPSED" << std::endl;
+        // for (auto it = collapsed.begin(); it != collapsed.end(); ++it)
+        // {
+        //     // std::cout << *it << std::endl;
+        //     nodeQueue->push(*it);
+        // }
+
+
 
         cur ++;
     }
+
+        // std::cout << "HERE?" << std::endl;
 
 
     this->stopClock();

@@ -20,6 +20,7 @@ class LSV2ObjectWrapper
         void mergeAll();
         bool insert(int index, int value);
         bool attemptInsertAll(int value);
+        std::unordered_set<int> collapse(int index);
 
 
         int size;
