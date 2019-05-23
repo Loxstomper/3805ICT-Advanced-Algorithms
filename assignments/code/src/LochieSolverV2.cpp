@@ -49,24 +49,19 @@ int LochieSolverV2::solve(int target, int maxIterations, int startingSize)
 
     // attempt to fill startingSize objects
     // do a full pass of the queue
+    std::cout << "Initial Pass" << std::endl;
     for (int i = 0; i < this->number_nodes; i ++)
     {
         inserted = false;
         potential = nodeQueue->front();
         nodeQueue->pop();
 
-        if (potential == 0)
-        {
-            std::cout << "WAS 0!" << std::endl;
-            return -10;
-        }
-
         // try see if it will fit in any
         for (int i = 0; i < startingSize; i ++)
         {
             if (objectWrapper->insert(i, potential))
             {
-                std::cout << "INSERTED Node: " << potential << " Into: " << i << " Size Now: " << objectWrapper->getSizeElement(i) << std::endl;
+                // std::cout << "INSERTED Node: " << potential << " Into: " << i << " Size Now: " << objectWrapper->getSizeElement(i) << std::endl;
                 inserted = true;
                 break;
             }
@@ -90,7 +85,7 @@ int LochieSolverV2::solve(int target, int maxIterations, int startingSize)
 
     }
 
-    std::cout << "MERGING" << std::endl;
+    std::cout << "Initial Merge:" << std::endl;
     // start the merging
     // just testing
     for (int i = 0; i < startingSize; i ++)
@@ -118,9 +113,13 @@ int LochieSolverV2::solve(int target, int maxIterations, int startingSize)
 
     int limit = 100;
     int cur = 0;
+    int mergeTimeRange = 4;
+    int mergeTime = rand() % mergeTimeRange;
+
+
 
     // while (cur < limit)
-    while (!nodeQueue->empty())
+    while (!nodeQueue->empty() && best < target)
     {
         inserted = false;
         // attempt to add
@@ -140,38 +139,43 @@ int LochieSolverV2::solve(int target, int maxIterations, int startingSize)
         }
 
         // couldnt insert so make a new object
-        objectWrapper->add();
-        objectWrapper->insert(objectWrapper->size - 1, potential);
-
-        // now merge
-        for (int i = 0; i < startingSize; i ++)
+        if (!inserted) 
         {
-            for (int j = i; j < startingSize; j ++)
-            {
-                // try merge the smallest
-                if (objectWrapper->getSizeElement(i) > objectWrapper->getSizeElement(j))
-                {
-                    objectWrapper->merge(i, j);
-                }
-                else
-                {
-                    objectWrapper->merge(j, i);
-                }
-                
+            objectWrapper->add();
+            objectWrapper->insert(objectWrapper->size - 1, potential);
+        }
 
-                if (objectWrapper->best > best) 
+        if (cur == mergeTime)
+        {
+            // now merge
+            for (int i = 0; i < startingSize; i ++)
+            {
+                for (int j = i; j < startingSize; j ++)
                 {
-                    best = objectWrapper->best;
-                    std::cout << "NEW BEST: " << best  << std::endl;
+                    // try merge the smallest
+                    if (objectWrapper->getSizeElement(i) > objectWrapper->getSizeElement(j))
+                    {
+                        objectWrapper->merge(i, j);
+                    }
+                    else
+                    {
+                        objectWrapper->merge(j, i);
+                    }
                 }
             }
+
+            cur = 0;
+            mergeTime = rand() % mergeTimeRange;
+        }
+
+        if (objectWrapper->best > best) 
+        {
+            best = objectWrapper->best;
+            std::cout << "NEW BEST: " << best  << std::endl;
         }
 
         cur ++;
     }
-
-    std::cout << "TOTAL SETS: " << objectWrapper->size << std::endl;
-
 
     this->stopClock();
 
