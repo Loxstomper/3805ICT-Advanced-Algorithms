@@ -50,7 +50,7 @@ int LochieSolverV2::solve(int target, int maxIterations, int startingSize)
 
     // attempt to fill startingSize objects
     // do a full pass of the queue
-    std::cout << "Initial Pass" << std::endl;
+    // std::cout << "Initial Pass" << std::endl;
     for (int i = 0; i < this->number_nodes; i ++)
     {
         potential = nodeQueue->front();
@@ -64,22 +64,22 @@ int LochieSolverV2::solve(int target, int maxIterations, int startingSize)
         if (objectWrapper->best > best)
         {
             best = objectWrapper->best;
-            std::cout << "NEW BEST: " << best << std::endl;
+            // std::cout << "NEW BEST: " << best << std::endl;
         }
 
     }
 
-    std::cout << "Initial Merge:" << std::endl;
+    // std::cout << "Initial Merge:" << std::endl;
 
     objectWrapper->mergeAll();
 
     if (objectWrapper->best > best) 
     {
         best = objectWrapper->best;
-        std::cout << "NEW BEST: " << best  << std::endl;
+        // std::cout << "NEW BEST: " << best  << std::endl;
     }
 
-    int limit = 100;
+    int limit = 1;
     int cur = 0;
 
 
@@ -112,7 +112,7 @@ int LochieSolverV2::solve(int target, int maxIterations, int startingSize)
             if (objectWrapper->best > best) 
             {
                 best = objectWrapper->best;
-                std::cout << "NEW BEST: " << best  << std::endl;
+                // std::cout << "NEW BEST: " << best  << std::endl;
             }
 
         }
@@ -128,25 +128,21 @@ int LochieSolverV2::solve(int target, int maxIterations, int startingSize)
         //     nodeQueue->push(*it);
         // }
 
-
-
         cur ++;
     }
-
-        // std::cout << "HERE?" << std::endl;
 
 
     this->stopClock();
 
     // checking they are all IS
-    for (int i = 0; i < objectWrapper->size; i ++)
-    {
-        if (!this->isIS(objectWrapper->objects->at(i).nodes))
-        {
-            std::cout << "Not valid" << std::endl;
-            break;
-        }
-    }
+    // for (int i = 0; i < objectWrapper->size; i ++)
+    // {
+    //     if (!this->isIS(objectWrapper->objects->at(i).nodes))
+    //     {
+    //         std::cout << "Not valid" << std::endl;
+    //         break;
+    //     }
+    // }
 
     return best;
 }

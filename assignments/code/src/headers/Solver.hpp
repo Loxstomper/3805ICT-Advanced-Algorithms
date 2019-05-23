@@ -26,7 +26,7 @@ class Solver
         std::chrono::high_resolution_clock::time_point endTime;
 
         int getDegree(int i);
-        std::vector<int> getNeighbours(int i);
+        std::vector<int>* getNeighbours(int i);
         int getNeighbourhoodDegree(int i);
 
         void startClock();

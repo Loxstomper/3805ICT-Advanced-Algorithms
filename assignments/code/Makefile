@@ -1,4 +1,4 @@
-debug = -g
+# debug = -g
 optimize = -O2
 
 maximum-independent-set: build/main.o build/Reader.o build/AdjencyMatrix.o build/AdjencyList.o build/Solver.o build/GreedySolver.o build/LochieSolver.o build/LochieSolverV2.o build/Node.o ./build/LSV2Object.o ./build/LSV2ObjectWrapper.o

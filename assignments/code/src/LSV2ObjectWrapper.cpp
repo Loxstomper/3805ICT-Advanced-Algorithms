@@ -107,8 +107,10 @@ bool LSV2ObjectWrapper::attemptInsertAll(int value)
 
 std::unordered_set<int> LSV2ObjectWrapper::collapse(int index)
 {
+    // copy node content
     std::unordered_set<int> nodes = *this->objects->at(index).nodes;
 
+    // remove the object
     this->objects->erase(this->objects->begin() + index);
     this->size --;
 

@@ -1,0 +1,69 @@
+File: ./data/brock800_1.clq	Target: 10
+9.3	1.10275
+8	0.0132421
+8	0.00660088
+8	0.00660916
+
+[lox@h440 code]$ ./maximum-independent-set ./data/brock800_2.clq 
+
+File: ./data/brock800_2.clq	Target: 10
+9.3	1.24326
+8	0.0131762
+8	0.0161611
+8	0.0162951
+
+[lox@h440 code]$ ./maximum-independent-set ./data/brock800_3.clq 
+
+File: ./data/brock800_3.clq	Target: 11
+9.4	1.37712
+8.1	0.0131772
+7	0.0110755
+7	0.0109753
+
+[lox@h440 code]$ ./maximum-independent-set ./data/brock800_4.clq 
+
+File: ./data/brock800_4.clq	Target: 10
+9.4	1.07891
+8.2	0.0132841
+7	0.00558744
+7	0.00622975
+
+[lox@h440 code]$ ./maximum-independent-set ./data/C2000.5.clq 
+
+File: ./data/C2000.5.clq	Target: 17
+14	5.50669
+12.9	0.0687183
+10	0.0919145
+12	0.0641776
+
+[lox@h440 code]$ ./maximum-independent-set ./data/C2000.9.clq 
+
+File: ./data/C2000.9.clq	Target: 6
+5.8	2.01688
+5.2	0.137495
+5	0.0688886
+5	0.0679144
+
+[lox@h440 code]$ ./maximum-independent-set ./data/C4000.5.clq 
+
+File: ./data/C4000.5.clq	Target: 18
+15	17.9248
+14	0.273191
+13	0.361671
+13	0.359737
+
+[lox@h440 code]$ ./maximum-independent-set ./data/MANN_a45.clq 
+
+File: ./data/MANN_a45.clq	Target: 3
+3	0.000550285
+3	0.000400068
+2	0.00469476
+2	0.00474114
+
+[lox@h440 code]$ ./maximum-independent-set ./data/san1000.clq 
+
+File: ./data/san1000.clq	Target: 67
+64.2	5.3474
+54.7	0.0076907
+67	0.0111464
+67	0.0106518

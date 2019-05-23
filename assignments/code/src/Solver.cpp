@@ -19,21 +19,21 @@ int Solver::getDegree(int i)
     return this->adj_l->getSize(i);
 }
 
-std::vector<int> Solver::getNeighbours(int i)
+std::vector<int>* Solver::getNeighbours(int i)
 {
-    return this->adj_l->get(i);
+    return this->adj_l->getPtr(i);
 }
 
 int Solver::getNeighbourhoodDegree(int i)
 {
-    std::vector<int> neighbours = this->getNeighbours(i);
+    std::vector<int>* neighbours = this->getNeighbours(i);
 
     int sum = 0;
 
     // change to iterator
-    for (int i = 0; i < neighbours.size(); i ++)
+    for (int i = 0; i < neighbours->size(); i ++)
     {
-        sum += this->getDegree(neighbours[i]);
+        sum += this->getDegree(neighbours->at(i));
     }
 
     return sum;

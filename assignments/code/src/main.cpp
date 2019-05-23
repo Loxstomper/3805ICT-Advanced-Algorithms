@@ -45,7 +45,7 @@ int main(int argc, char** argv)
 
     bool complement = (argc > 2 && (strcmp(argv[2], "c") == 0)) ? true : false;
 
-    std::cout << "COMPLEMENT? : " << complement << std::endl;
+    // std::cout << "COMPLEMENT? : " << complement << std::endl;
 
     Reader::read(argv[1], complement, &adj_m, &adj_l, &number_nodes, &number_edges);
 
@@ -75,34 +75,54 @@ int main(int argc, char** argv)
     LochieSolver lochieSolver(number_nodes, number_edges, &adj_m, &adj_l);
     LochieSolverV2 lochieSolverV2(number_nodes, number_edges, &adj_m, &adj_l);
 
-    mis  = lochieSolverV2.solve(target, 100, 4);
-    time = lochieSolverV2.getSearchTime();
+    // mis  = lochieSolverV2.solve(target, 100, 4);
+    // time = lochieSolverV2.getSearchTime();
 
-    output(target, "LochieV2", mis, time);
+    // output(target, "LochieV2", mis, time);
 
-
+    double counts[4] = {0, 0, 0, 0};
+    double times[4] = {0, 0, 0, 0};
 
     for (int i = 0; i < 1; i ++)
     {
-        // mis  = lochieSolver.solve(target, 10000);
-        // time = lochieSolver.getSearchTime();
+        mis  = lochieSolver.solve(target, 5000);
+        time = lochieSolver.getSearchTime();
 
+        counts[0] += mis;
+        times[0] += time;
         // output(target, "LochieV1", mis, time);
 
-        // mis  = lochieSolverV2.solve(target, 100);
-        // time = lochieSolverV2.getSearchTime();
+        mis  = lochieSolverV2.solve(target, 100, 4);
+        time = lochieSolverV2.getSearchTime();
+
+        counts[1] += mis;
+        times[1] += time;
 
         // output(target, "LochieV2", mis, time);
 
-        // mis  = greedySolver.solve(target, true);
-        // time = greedySolver.getSearchTime();
+        mis  = greedySolver.solve(true, target);
+        time = greedySolver.getSearchTime();
+
+        counts[2] += mis;
+        times[2] += time;
 
         // output(target, "GreedyDegree", mis, time);
 
-        // mis  = greedySolver.solve(target, false);
-        // time = greedySolver.getSearchTime();
+        mis  = greedySolver.solve(false, target);
+        time = greedySolver.getSearchTime();
+
+        counts[3] += mis;
+        times[3] += time;
 
         // output(target, "GreedyNeighbourhoodDegree", mis, time);
+    }
+
+    for (int i = 0; i < 4; i ++)
+    {
+        // counts[i] /= 10.0;
+        // times[i] /= 10.0;
+
+        std::cout << counts[i] << "\t" << times[i] << std::endl;
     }
 
     std::cout << std::endl;
