@@ -48,10 +48,10 @@ There is also a relationship between MIS and the minimum vertex cover problem, h
 paper focuses purely on the MIS.
 
 The maximum independent set of a graph has various real world applications and because of this an efficient algorithm is 
-highly desired. This paper is structured as follows, section 2 contains the literature review, section 3 the XYZ algorithm, section 4 
+highly desired. This paper is structured as follows, section 2 contains the literature review, section 3 the LSV2 algorithm, section 4 
 the results and lastly the conclusion is section 5.
 
-Tests will be ran against a subset of the DIMACS[2] in order to benchmark XYZ algorithm.
+Tests will be ran against a subset of the DIMACS[2] in order to benchmark the LSV2 algorithm.
 
 \subsection{Terminology}
 
@@ -111,11 +111,11 @@ correlation between a lower run time and high density graphs.
 Simulated annealing is an iterative improvement algorithm which incorporates randomness, it has been used to solve many
 problems, the MIS included. Using simulated annealing near optimal solutions can be found with a high probability of 
 finding the optimal solution - the MIS of the graph [9]. As shown in the paper the MIS of the graph is not always found
-but is generally very near the optimum, this same property is shown when compared to other algorithms in the result 
+but is generally very close to the optimum, this same property is shown when compared to other algorithms in the result 
 section.
 
 As mentioned in the introduction a solution to the MIS is the maximum clique in the complement of the input graph. In
-2006 an algorithm was published called DLS-MC which is a stochastic local search algorithm that oscillates between
+2006 an algorithm was published called DLS-MC which is a stochastic local search algorithm that alternates between
 iterative improvement and plateau search. [10] The algorithm has some very interesting concepts and in the results 
 section is shown to be very competitive with the existing algorithms.
 
@@ -129,7 +129,8 @@ and if not is at least extremely close.
 
 \section{Algorithm}
 
-The algorithm takes inspiration from ......
+The LochieSolverV2 (LSV2) algorithm takes inspiration from the Fibonacci heap datastructure's pop min behaviour in which 
+the trees are merged together.
 
 \subsection{Design}
 
