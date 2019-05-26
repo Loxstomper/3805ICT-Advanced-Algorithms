@@ -1,6 +1,8 @@
 \documentclass[conference]{IEEEtran}
 \IEEEoverridecommandlockouts
 % The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
+\usepackage{float}
+\restylefloat{table}
 \usepackage{cite}
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage{algorithm}
@@ -24,7 +26,7 @@ lochieashcroft@griffithuni.edu.au}
 \maketitle
 
 \begin{abstract}
-This paper contains a brand new algorithm for identifying maximum independent sets in a graph as well as its complement.
+This paper contains a brand new algorithm for identifying maximum independent sets in a graph.
 A literature review was performed to give context on what the current research is in this domain and as a point of 
 comparison for the effectiveness of the algorithm.
 \end{abstract}
@@ -127,143 +129,192 @@ solutions. The result sections shows that this algorithm is able to reach the op
 and if not is at least extremely close.
 
 
-\section{Algorithm}
+\section{The LSV2 Algorithm}
 
 The LochieSolverV2 (LSV2) algorithm takes inspiration from the Fibonacci heap datastructure's pop min behaviour in which 
-the trees are merged together.
+the trees are merged together. The algorithm creates and merges multiple independent sets as well as collapsing sets. As 
+seen in the results section this approach on average finds an IS that is close to the global maxima and also is very quick. 
+The algorithm is stochastic and therefor a guarantee cannot be given for finding the MIS, to increase the probability this algorithm is run 
+multiple times. Each IS stores a map that contains the set's adjacent vertices as well as how many vertices in the set are adjacent to it.
+This map is crucial to the algorithms performance, it determines if a vertex can be added to the set and maintain the IS characteristics efficiently and is updated
+on every insert and removal. LSV2 has four stages, the initial pass, initial merge, the main loop and collapsing.
+To begin there are K empty independent sets, every vertex in the graph is attempted to be added to these sequentially, 
+the vertices which were unable to be included are added back to the pool of available vertices. Next comes the initial merge
+which attempts to combine all of the K IS together. The main loop attempts to insert a random vertex into the current sets
+if unable to a new set is created and after L insertions all the sets are merged. This process continues until there is no
+available vertices left, in which case a random set is collapsed and it's vertices are made available and the process continues
+for a specified amount of times.
 
-\subsection{Design}
-
-Just some ideas which may be explored
-
-\subsection{Greedy}
-
-This algorithm has been implemented, really just to confirm that datastructures are working and a point of comparison 
-to other algorithms. The greedy algorithm is a naive approach it uses a priority queue ordered by the degree of the node 
-or the neighbourhood degree, a node is popped and attempted to be added to the independent set, if it cannot be added it 
-is removed and will not be considered again. The algorithm is very fast but is unable to find the MIS.
-
-%  \begin{algorithm}
-%  \caption{Greedy}
+%  \begin{algorithm}[H]
+%  \caption{LSV2}
 %  \begin{algorithmic}[1]
 %  \renewcommand{\algorithmicrequire}{\textbf{Input:}}
 %  \renewcommand{\algorithmicensure}{\textbf{Output:}}
 %  \ENSURE  MIS size
-%  \\ \textit{Initialisation} :
-%   \STATE is = empty set 
-%   \STATE q  = priority queue
-%  \\ \textit{Fill queue}
-%   \FOR {$i = 1$ to $numberNodes$}
-%   \STATE $q$.push(Node(i, getDegree(i), getNeighbourhoodDegree(i)))
-%   \ENDFOR
-
-%   \WHILE {$q$ not empty}
-%     \STATE $collision$ = 0
-%     \STATE $potential$ = $q$.pop()
-
-%     \FOR {$i = 0$ to size(adjencyList[potential])}
-%         \IF {adjencyList(potential)[i] in $is$}
-%             \STATE $collision$ = 1
-%             \STATE break
-%         \ENDIF
+%     \STATE Randomize nodes 
+%     \STATE sets = set[k]
+%     \STATE Initial pass
+%     \STATE Initial merge
+%     \WHILE{$N \neq 0$}
+%         \STATE 2 = 3
 %     \ENDFOR
-
-%     \IF {$collision$ == 0}
-%         \STATE $is$.add(potential)
-%     \ENDIF
-%   \ENDWHILE
-
-%   \RETURN $size(is)$
+    
 %  \end{algorithmic} 
 %  \end{algorithm}
 
-\subsection{Many Independent Sets}
-This algorithm finds numerous independent sets and attempts to combine them to form the MIS. It begins with an initial 
-empty set, a random node is then placed into that set. Another node is randomly selected if it can be added to this set
-and still maintain its independence then it is inserted else a new independent set is created. This process continues 
-until there are no nodes left. Once there are no nodes left these independent sets are attempted to be merged, if a merge 
-is not possible nodes are removed until a merge can occur the left over nodes then form another independent set and the 
-process continues. It is obvious that this algorithm has a terrible time complexity but is expected to return better 
-results to that of the Greedy above.
-
- \begin{algorithm}
- \caption{Many Independent Sets}
+  \begin{algorithm}
+ \caption{LSV2}
  \begin{algorithmic}[1]
  \renewcommand{\algorithmicrequire}{\textbf{Input:}}
  \renewcommand{\algorithmicensure}{\textbf{Output:}}
  \ENSURE  MIS size
- \\ \textit{Initialisation} :
-    \STATE nodes = [nodes...]
-    \STATE is = [set]
-    \STATE is[0].add(nodes[random(0, size(nodes))].pop())
+%  \\ \textit{Initialisation} :
 
-    \WHILE {size(nodes) greater than 1}
-        \STATE $added$ = 0
-        \STATE node = nodes[random(0, size(nodes))].pop()
-        
-        \FOR {$i$ = 0 to size(is)}
-            \IF {node can be added to is}
-                \STATE is[i].add(node)
-                \STATE $added$ = $i$
-                \STATE break
+
+    \WHILE {$count \le limit$}
+
+        \STATE $nodesQueue = Queue(Randomize(nodes))$
+        \STATE $sets = set[k]$
+        \STATE Perform initial pass
+        \STATE Perform initial merge
+
+        \STATE $shouldMerge = 0$
+        \STATE $collapseCount = 0$
+        \WHILE {$nodesQueue$ is not empty}
+            \STATE $node = nodesQueue.pop()$
+            \IF {$sets.insert(node) failed$}
+                \STATE $sets.create(node)$
             \ENDIF
-        \ENDFOR
 
-        \IF {$i$ not 0}
-            \STATE is.add(set(node))
-        \ENDIF
+            \STATE $shouldMerge$ += 1
+            \IF {$shouldMerge$ == 5}
+                \STATE $sets.merge()$ 
+                \STATE $shouldMerge$ == 1
+            \ENDIF
+
+            \IF {$nodesQueue$ is empty and $collapseCount$ $\le$ 4}
+                \STATE $sets.collapse()$ 
+                \STATE $collapseCount$ += 1
+            \ENDIF
+        \ENDWHILE
+
+        \STATE $count$ += 1
+
+
     \ENDWHILE
 
-    \FOR {$i$ = 0 to size(is)}
-        \FOR {$j$ = 0 to size(is)} 
-            \FOR {$k$ = 0 to size(is)} 
-                \STATE leftovers = set()
-                \STATE leftovers = merge(is[j], is[k])
-                \STATE is.add(leftovers)
-            \ENDFOR
-        \ENDFOR
-
-    \ENDFOR
-
-
-
-
-    \STATE $largest$ = 0
-
-    \FOR {$i$ = 0 to size(is)}
-        \IF {size(is[i]) greater than $largest$}
-            \STATE $largest$ = size(is[i])
-        \ENDIF
-    \ENDFOR
 
   \RETURN $largest$
  \end{algorithmic} 
- \end{algorithm}
+\end{algorithm}
 
-\subsection{Parallel Greedy}
+  \begin{algorithm}[H]
+ \caption{Merge}
+ \begin{algorithmic}[1]
+ \renewcommand{\algorithmicrequire}{\textbf{Input:}}
+ \renewcommand{\algorithmicensure}{\textbf{Output:}}
+%  \ENSURE  MIS size
+%  \\ \textit{Initialisation} :
 
-Sort the vertices by their degree in ascending order, randomly pick a starting vertex from the first 10\% of nodes. 
-Randomly pick another vertex to add to the set while maintaining the independence with a bias for a vertex with a low 
-degree. This is performed on multiple threads. The aim of this algorithm is to increase the likelihood of a 'good' 
-solution without any additional runtime.
+    \FOR {$node$ in $B$}
+        \IF {$node$ not in $A$}
+            \IF {$A.insert(node)$}
+                \STATE update $A$ Adjacency Map
+                \STATE update $B$ Adjacency Map
+                \STATE $B.remove(node)$
+            \ENDIF
+        \ENDIF
+    \ENDFOR
 
-\subsection{Random shrink and grow}
+ \end{algorithmic} 
+\end{algorithm}
 
-Randomly choose $N$ vertices to build a set, if the set is independent randomly add 1 or more vertices to the set.
-If the set is not independent randomly remove vertices until it is.
+  \begin{algorithm}[H]
+ \caption{Insert}
+ \begin{algorithmic}[1]
+ \renewcommand{\algorithmicrequire}{\textbf{Input:}}
+ \renewcommand{\algorithmicensure}{\textbf{Output:}}
+%  \ENSURE  MIS size
+%  \\ \textit{Initialisation} :
 
-\subsection{Parallel Algorithms}
-One approach for this assignment may be to use non deterministic algorithms ran in parralel to increase the probability of a
-'good' result and increase the odds of reaching the optimal. This may be a valid strategy as it will not increase overall
-runtime.
+    \FOR {$set$ in $sets$}
+        \IF {$set.insert(node)$}
+            \STATE update Adjacency Map
+            \RETURN True
+        \ENDIF
+    \ENDFOR
 
-\subsection{Pseudocode}
+    \RETURN False
 
-Developed algorithm's pseudocode will be here \dots
+
+ \end{algorithmic} 
+\end{algorithm}
+
 
 \section{Results}
 
-Develoepd algorithm DIMACS benchmarks, compared to task sheet results and algorithms in the literature review \dots
+A subset of the DIMACS benchmarks were used to test the effectiveness of LSV2. In addition a target algorithm,
+greedy algorithms using the degree of a vertex (Greedy D) and the neighbourhood degree (Greedy ND) for the heuristic and a random approach are displayed.
+The LSV2 configuration was 1000 loops, 4 initial empty sets and to merge all sets after every 5 insertions.
+NOTE: The collapsing of the sets was not incorporated for the below results.
+
+\begin{table}[h]
+\caption{Average size of the MIS}
+\label{tab:my-table}
+\begin{tabular}{|l|l|l|l|l|l|}
+\hline
+Graph       & Target & LSV2 & Greedy D & Greedy ND & Random \\ \hline
+brock800\_1 & 10     & 8    & 8        & 8         & 9.3    \\ \hline
+brock800\_2 & 10     & 8    & 8        & 8         & 9.3    \\ \hline
+brock800\_3 & 11     & 8.1  & 7        & 7         & 9.4    \\ \hline
+brock800\_4 & 10     & 8.2  & 7        & 7         & 9.4    \\ \hline
+C2000.5     & 17     & 12.9 & 12       & 10        & 14     \\ \hline
+C2000.9     & 6      & 5.2  & 5        & 5         & 5.8    \\ \hline
+C4000.5     & 18     & 14   & 13       & 13        & 15     \\ \hline
+keller6     & 63     & 61.4 & 14       & 20        & 63     \\ \hline
+MANN\_a5    & 3      & 3    & 2        & 2         & 3      \\ \hline
+san1000     & 67     & 54.7 & 67       & 67        & 64.2   \\ \hline
+\end{tabular}
+\end{table}
+
+From the table above it is clear that LSV2 finds larger maximal IS compared to the Greedy Algorithms, typically under that of the target however.
+MANN\_a5 is interesting as both Greedy Algorithms are unable to reach the target but LSV2 is. Keller6 is similar however
+the delta is much larger for the Greedy Algorithms. The Greedy Algorithms are deterministic, the LSV2 results were averaged
+from a series of runs which is why there are decimals, if only considering the highest value than LSV2's results would be higher.
+
+\begin{table}[h]
+\caption{Average CPU Time}
+\label{tab:my-tableCPU}
+\begin{tabular}{|l|l|l|l|l|l|}
+\hline
+Graph       & Target       & LSV2         & Greedy D & Greedy ND & Random       \\ \hline
+brock800\_1 & 0.02         & 0.013        & 0.007    & 0.007     & 1.103        \\ \hline
+brock800\_2 & 0.02         & 0.013        & 0.016    & 0.17      & 1.243        \\ \hline
+brock800\_3 & 0.43         & 0.013        & 0.011    & 0.011     & 1.377        \\ \hline
+brock800\_4 & 0.01         & 0.013        & 0.006    & 0.006     & 1.079        \\ \hline
+C2000.5     & 561.02       & 0.069        & 0.064    & 0.064     & 5.507        \\ \hline
+C2000.9     & 0.02         & 0.137        & 0.068    & 0.068     & 2.017        \\ \hline
+C4000.5     & 285.17       & 0.273        & 0.356    & 0.359     & 17.925       \\ \hline
+keller6     & 0.08         & 0.104        & 0.913    & 0.913     & 1.189        \\ \hline
+MANN\_a5    & $\le$$\epsilon$ & $\le$ $\epsilon$ & 0.005    & 0.005     & $\le$ $\epsilon$ \\ \hline
+san1000     & $\le$$\epsilon$ & 0.008        & 0.011    & 0.011     & 5.3474       \\ \hline
+\end{tabular}
+\end{table}
+
+The CPU times is where LSV2 shines there is not that much of an overhead compared to the Greedy Algorithms but in return 
+larger IS are highly likely. LSV2 generally outperforms the Target algorithm in terms of CPU time and this is extremely evident
+on the graph C2000.5. These CPU times can be attributed to the hardware that the algorithms were ran on and in terms of LSV2
+the efficient datastructures used mostly from the STL which had O(1) operations. All in all LSV2 outperforms Greedy generally
+and should be used instead, the Target algorithm has higher accuracy but has a longer running time, LSV2 is a good compromise.
+
+\section{Improvements and Experimentation}
+
+There are a number of potential experiments that could be performed which may improve LSV2. These include the number of starting
+sets  and how these are populated - currently randomly but there is no reason why it could not be greedy. Secondly modifying the
+insert / merge behaviour from instead of performing sequentially it could be performed randomly. The merging of all the sets could be
+initiated randomly instead of at fixed intervals and lastly the collapsing of the set, this was not functional for the above results.
+High density graphs would be an interesting aspect to explore as the results from LSV2  maybe continue to outperform that of a Greedy Algorithm.
+
 
 \begin{thebibliography}{00}
 \bibitem{b1} Garey. M. R, Johnson. D. S: Computers and Intractability: A Guide to the theory NP – completeness. San Francisco: Freeman (1979).  
